@@ -20,6 +20,7 @@ The following table lists the out-of-the-box concrete implementations of above i
 |`CsprngSaltGenerator`|`IGenerateSalts`|Uses `System.Security.Cryptography.RNGCryptoServiceProvider` for salt generation. The resulting salt is random enough to be considered cryptographically secure.|
 |`Pbkdf2PasswordHasher`|`IComparePasswords`, `IHashPasswords`|Password comparison and hashing strategy using the password-based key derivation functionality provided by the `System.Security.Cryptography.Rfc2898DeriveBytes` type.|
 
+
 ## Example Usage
 
 The following examples are listed in the order of operations common to creating and later comparing password hashes.
@@ -73,6 +74,7 @@ else
 |Branch|Package ID|Feed URL|
 |---|---|---|
 |develop|`Bogosoft.Security.Passwords`|https://www.myget.org/feed/bogolib/package/nuget/Bogosoft.Security.Passwords|
+|master|`Bogosoft.Security.Passwords`|https://www.nuget.org/packages/Bogosoft.Security.Passwords/|
 
 ## Additional Notes
 
