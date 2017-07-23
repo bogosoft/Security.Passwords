@@ -54,8 +54,10 @@ Obviously you'll be storing this. Don't forget to store the salt we generated ea
 ### Comparing a Given Password to a Password Hash
 
 ```csharp
+// Instantiate a new password hash comparer.
 IComparePasswords comparer = new Pbkdf2PasswordHasher(saltsize / 2);
 
+// Perform the comparison.
 if(Comparer.Compare(salt, password, hashed))
 {
     // Authenticated!
@@ -70,7 +72,7 @@ else
 
 |Branch|Package ID|Feed URL|
 |---|---|---|
-|develop|`Bogosoft.Security.Passwords`|https://www.myget.org/F/bogolib/api/v3/index.json|
+|develop|`Bogosoft.Security.Passwords`|https://www.myget.org/feed/bogolib/package/nuget/Bogosoft.Security.Passwords|
 
 ## Additional Notes
 
