@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Should;
 using System;
+using System.Linq;
 
 namespace Bogosoft.Security.Passwords.Tests
 {
@@ -44,6 +45,53 @@ namespace Bogosoft.Security.Passwords.Tests
             hashed.Length.ShouldEqual(hashsize);
 
             hasher.Compare(salt, Password, hashed).ShouldBeTrue();
+        }
+
+        [TestCase]
+        public void Pbkdf2PasswordHasherFailsToRoundTripWhenPasswordsDontMatch()
+        {
+            var hashsize = 32;
+            var saltsize = hashsize * 2;
+
+            var salt = new CsprngSaltGenerator().Generate(saltsize);
+
+            salt.Length.ShouldEqual(saltsize);
+
+            var hasher = new Pbkdf2PasswordHasher(hashsize);
+
+            var hashed = hasher.Hash(salt, Password);
+
+            hashed.Length.ShouldEqual(hashsize);
+
+            hasher.Compare(salt, "Goodbye, World!", hashed).ShouldBeFalse();
+        }
+
+        [TestCase]
+        public void Pbkdf2PasswordHasherFailsToRoundTripWhenSaltsDontMatch()
+        {
+            var hashsize = 32;
+            var saltsize = hashsize * 2;
+            var generator = new CsprngSaltGenerator();
+
+            var salt1 = generator.Generate(saltsize);
+
+            salt1.Length.ShouldEqual(saltsize);
+
+            byte[] salt2;
+
+            do
+            {
+                salt2 = generator.Generate(saltsize);
+
+            } while (salt2.SequenceEqual(salt1));
+
+            var hasher = new Pbkdf2PasswordHasher(hashsize);
+
+            var hashed = hasher.Hash(salt1, Password);
+
+            hashed.Length.ShouldEqual(hashsize);
+
+            hasher.Compare(salt2, Password, hashed).ShouldBeFalse();
         }
 
         [TestCase]
